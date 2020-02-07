@@ -67,13 +67,11 @@ async function main() {
 
   try {
     upstreamName = await StagingUtils.checkUpstreamConfiguration(branchName).trim();
-    console.log('this is the upstream config ', upstreamConfig);
   } catch (error) {
     return;
   }
 
   try {
-    //upstreamName = StagingUtils.getUpstreamName(upstreamConfig).trim(); //remove \n
     upstreamConfig = await StagingUtils.getUpstreamBranch();
     console.log('this is the upstream name ', upstreamName);
   } catch (error) {
@@ -85,8 +83,6 @@ async function main() {
   } catch (error) {
     return;
   }
-
-  //const branchNameForPayload = doesRemoteHaveLocalBranch ? branchName : upstreamName;
 
   // toggle btwn create patch from commits or what you have saved locally
   if (patchFlag === 'commit') {

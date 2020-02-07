@@ -126,7 +126,7 @@ module.exports = {
         .then(() => {
           resolve('successfully removed patch file');
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(`exec error deleting patch file: ${error}`);
           reject(error);
         });
@@ -140,7 +140,7 @@ module.exports = {
           const repoUrl = result.stdout.replace('\n', '');
           resolve(repoUrl);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(`exec error: ${error}`);
           reject(error);
         });
@@ -195,11 +195,10 @@ module.exports = {
 
   async getUpstreamBranch() {
     try {
-      const upstream = (await exec('git remote -v')).stdout;
-      const arrs = upstream.split('\n');
-      console.log("who this is the split arr ", arrs);
-      const upstreambranch = (arrs[2].replace('upstream	', '')).replace(' (fetch)', '');
-      console.log("did we get the org?? ", upstreambranch);
+      const forkConfig = (await exec('git remote -v')).stdout;
+      const configArray = forkConfig.split('\n');
+      const upstreambranch = (configArray[2].replace('upstream	', '')).replace(' (fetch)', '');
+
       return upstreambranch;
     } catch (error) {
       console.error(error);
@@ -224,20 +223,6 @@ module.exports = {
       }
       console.error(error);
       throw error;
-    }
-  },
-
-  async doesRemoteHaveLocalBranch(branchName) {
-    try {
-      await exec(`git diff ${branchName} remotes/origin/${branchName}`);
-      return true;
-    } catch (error) {
-      if (error.code === 128) {
-        // we dont want to cancel the program
-        return false;
-      }
-      console.error(error);
-      return false;
     }
   },
 
@@ -268,7 +253,7 @@ module.exports = {
           .then(() => {
             fs.readFile('myPatch.patch', 'utf8', (err, data) => {
               if (err) {
-                console.log('error reading patch file: ', err);
+                console.error('error reading patch file: ', err);
                 reject(err);
               }
               resolve(data);
@@ -284,7 +269,7 @@ module.exports = {
           .then(() => {
             fs.readFile('myPatch.patch', 'utf8', (err, data) => {
               if (err) {
-                console.log('error reading patch file: ', err);
+                console.error('error reading patch file: ', err);
                 reject(err);
               }
               resolve(data);
