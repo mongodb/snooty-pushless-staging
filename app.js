@@ -79,8 +79,8 @@ async function main() {
   }
   //repoOwner, repoName = mongodb, docs-bi-connector
   const { repoOwner, repoName } = upstreamConfig.split('/');
-  const url = `https://github.com/${repoOwner}/${repoName}`;
-
+  const url = `https://github.com/${repoOwner}/${repoName}.git`;
+  console.log("this is the url " , url);
     // try {
     //   repoName = StagingUtils.getRepoName(url);
     // } catch (error) {
