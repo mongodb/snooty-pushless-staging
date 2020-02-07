@@ -70,7 +70,7 @@ module.exports = {
 
   createPayload(
     repoNameArg,
-    upstreamBranchName
+    upstreamBranchName,
     upstreamConfig,
     repoOwnerArg,
     urlArg,
