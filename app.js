@@ -8,6 +8,7 @@ async function main() {
   let upstreamConfig;
   let upstreamOwnerAndName;
   let userEmail;
+  let user;
   let localBranch;
   const newHead = 'newHead';
 
@@ -49,6 +50,7 @@ async function main() {
     console.error(error);
     return;
   }
+  let repoInfo;
 
   try {
     upstreamConfig = await StagingUtils.checkUpstreamConfiguration(localBranch);
@@ -65,6 +67,15 @@ async function main() {
     console.log(' split owner and name ', upstreamOwnerAndName.split('/'));
   } catch (error) {
     console.error(error);
+    return;
+  }
+
+  try {
+    repoInfo = await StagingUtils.getRepoInfo();
+    user = StagingUtils.getGitUser(repoInfo);
+    console.log(repoInfo, user);
+  } catch (error) {
+    console.log("error ", error);
     return;
   }
 
@@ -133,8 +144,8 @@ async function main() {
     try {
       await StagingUtils.insertJob(
         payLoad,
-        `Github Push: ${userEmail}/${repoName}`,
-        repoOwner,
+        `Github Push: ${user}/${repoName}`,
+        user,
         userEmail,
       );
     } catch (error) {
