@@ -68,9 +68,9 @@ async function main() {
   try {
     upstreamConfig = await StagingUtils.checkUpstreamConfiguration(localBranch);
     console.log("this is upstream config: ", upstreamConfig);
-    upstreamConfig = upstreamName.replace(/\r?\n|\r/g, "");
-    branchName = upstreamName.split('/');
-    console.log("this is upstream name : ", upstreamName, branchName);
+    upstreamConfig = upstreamConfig.replace(/\r?\n|\r/g, "");
+    branchName = upstreamConfig.split('/');
+    console.log("this is upstream name : ", upstreamConfig, branchName);
   } catch (error) {
     console.error(error);
     return;
