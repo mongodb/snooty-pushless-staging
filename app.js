@@ -66,7 +66,9 @@ async function main() {
   }
 
   try {
-    upstreamName = await StagingUtils.checkUpstreamConfiguration(branchName).trim();
+    upstreamName = await StagingUtils.checkUpstreamConfiguration(branchName);
+    upstreamName = upstreamName.replace(/\r?\n|\r/g, "");
+    console.log("this is upstream name : ", upstreamName);
   } catch (error) {
     return;
   }
