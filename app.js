@@ -7,8 +7,7 @@ async function main() {
 
   let upstreamConfig;
   let upstreamName;
-  let branchName;
-  let upstreamOwnerAndName
+  let upstreamOwnerAndName;
   // let repoName;
   let localBranch;
   let userEmail;
@@ -69,7 +68,7 @@ async function main() {
     upstreamConfig = await StagingUtils.checkUpstreamConfiguration(localBranch);
     console.log("this is upstream config: ", upstreamConfig);
     upstreamConfig = upstreamConfig.replace(/\r?\n|\r/g, "");
-    branchName = upstreamConfig.split('/');
+   
     console.log("this is upstream name : ", upstreamConfig, branchName);
   } catch (error) {
     console.error(error);
@@ -84,7 +83,8 @@ async function main() {
     return;
   }
   //repoOwner, repoName = mongodb, docs-bi-connector
-  const { repoOwner, repoName } = upstreamConfig.split('/');
+  const { repoOwner, repoName } = upstreamOwnerAndName.split('/');
+  const {upstr, branchName} = upstreamConfig.split('/');
   const url = `https://github.com/${repoOwner}/${repoName}.git`;
   console.log("this is the url " , url);
     // try {
