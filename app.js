@@ -66,7 +66,7 @@ async function main() {
   }
 
   try {
-    upstreamName = await StagingUtils.checkUpstreamConfiguration(branchName);
+    upstreamName = await StagingUtils.checkUpstreamConfiguration(branchName).trim();
     console.log('this is the upstream config ', upstreamConfig);
   } catch (error) {
     return;
