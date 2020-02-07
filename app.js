@@ -7,7 +7,6 @@ async function main() {
   let url;
   let upstreamConfig;
   let upstreamName;
-  let doesRemoteHaveLocalBranch;
   let branchName;
   let repoName;
   let userEmail;
@@ -113,22 +112,21 @@ async function main() {
     );
  
     console.log(payLoad);
-    // try {
-    //   StagingUtils.insertJob(
-    //     payLoad,
-    //     `Github Push: ${repoOwner}/${repoName}`,
-    //     repoOwner,
-    //     userEmail,
-    //   );
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      StagingUtils.insertJob(
+        payLoad,
+        `Github Push: ${repoOwner}/${repoName}`,
+        repoOwner,
+        userEmail,
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (patchFlag === 'local') {
     console.log("berfore");
     const patch = await StagingUtils.getGitPatchFromLocal(upstreamName);
-    
     const payLoad = StagingUtils.createPayload(
       repoName,
       branchName,
@@ -141,19 +139,19 @@ async function main() {
     );
     console.log("after??");
     console.log(payLoad);
-    // try {
-    //   await StagingUtils.insertJob(
-    //     payLoad,
-    //     `Github Push: ${repoOwner}/${repoName}`,
-    //     repoOwner,
-    //     userEmail,
-    //   );
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      await StagingUtils.insertJob(
+        payLoad,
+        `Github Push: ${repoOwner}/${repoName}`,
+        repoOwner,
+        userEmail,
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  //await StagingUtils.deletePatchFile();
+  await StagingUtils.deletePatchFile();
 }
 
 main();
