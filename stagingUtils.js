@@ -23,7 +23,7 @@ module.exports = {
       failures: [],
       result: null,
       payload: payloadObj,
-      logs: {}
+      logs: {},
     };
 
     const filterDoc = {
@@ -70,12 +70,13 @@ module.exports = {
 
   createPayload(
     repoNameArg,
-    upstreamBranchName,
+    upstreamBranchName
+    upstreamConfig,
     repoOwnerArg,
     urlArg,
     patchArg,
     buildSizeArg,
-    lastCommit
+    lastCommit,
   ) {
     const payload = {
       jobType: 'githubPush',
@@ -83,20 +84,21 @@ module.exports = {
       action: 'push',
       repoName: repoNameArg,
       branchName: upstreamBranchName,
+      upstream: upstreamConfig,
       isFork: true,
       private: false,
       isXlarge: false,
       repoOwner: repoOwnerArg,
       url: urlArg,
       newHead: lastCommit,
-      patch: patchArg
+      patch: patchArg,
     };
 
     return payload;
   },
 
   async getBranchName() {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       exec('git rev-parse --abbrev-ref HEAD')
         .then((result) => {
           resolve(result.stdout.replace('\n', ''));
@@ -191,12 +193,17 @@ module.exports = {
     });
   },
 
-  getUpstreamName(upstream) {
-    const upstreamInd = upstream.indexOf('origin/');
-    if (upstreamInd === -1) {
-      return upstream;
+  async getUpstreamBranch() {
+    try {
+      const upstream = await exec('git remote -v');
+      const arrs = upstream.split('/n');
+      const upstreambranch = (arrs[2].replace('upstream	', '')).replace(' (fetch)', '');
+      console.log("did we get the org?? ", upstreambranch);
+      return upstreambranch;
+    } catch (error) {
+      console.error(error);
+      throw error;
     }
-    return 'master';
   },
 
   async checkUpstreamConfiguration(branchName) {

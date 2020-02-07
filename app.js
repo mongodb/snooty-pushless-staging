@@ -67,13 +67,14 @@ async function main() {
 
   try {
     upstreamConfig = await StagingUtils.checkUpstreamConfiguration(branchName);
-    console.log('this is the upstream config ', upstreamConfig)
+    console.log('this is the upstream config ', upstreamConfig);
   } catch (error) {
     return;
   }
 
   try {
-    upstreamName = StagingUtils.getUpstreamName(upstreamConfig).trim(); //remove \n
+    //upstreamName = StagingUtils.getUpstreamName(upstreamConfig).trim(); //remove \n
+    upstreamName = StagingUtils.getUpstreamBranch();
     console.log('this is the upstream name ', upstreamName);
   } catch (error) {
     return;
@@ -85,7 +86,7 @@ async function main() {
     return;
   }
 
-  const branchNameForPayload = doesRemoteHaveLocalBranch ? branchName : upstreamName;
+  //const branchNameForPayload = doesRemoteHaveLocalBranch ? branchName : upstreamName;
 
   // toggle btwn create patch from commits or what you have saved locally
   if (patchFlag === 'commit') {
@@ -106,14 +107,15 @@ async function main() {
     );
     const payLoad = StagingUtils.createPayload(
       repoName,
-      branchNameForPayload,
+      branchName,
+      upstreamName,
       repoOwner,
       url,
       patch,
       buildSize,
       newHead,
     );
-
+    console.log(payLoad);
     // try {
     //   StagingUtils.insertJob(
     //     payLoad,
@@ -130,14 +132,15 @@ async function main() {
     const patch = await StagingUtils.getGitPatchFromLocal(upstreamName);
     const payLoad = StagingUtils.createPayload(
       repoName,
-      branchNameForPayload,
+      branchName,
+      upstreamName,
       repoOwner,
       url,
       patch,
       buildSize,
       newHead,
     );
-
+      console.log(payLoad);
     // try {
     //   await StagingUtils.insertJob(
     //     payLoad,
