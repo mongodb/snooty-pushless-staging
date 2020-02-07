@@ -195,7 +195,7 @@ module.exports = {
 
   async getUpstreamBranch() {
     try {
-      const upstream = await (await exec('git remote -v')).stdout;
+      const upstream = await (await exec('git remote -v')).stdout.setEncoding('utf8');
       //console.log('type of ', typeof upstream.stdout, upstream.stdout, upstream);
       const arrs = upstream.split('+');
       console.log("who this is the split arr ", arrs)
