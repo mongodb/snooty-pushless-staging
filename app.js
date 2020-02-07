@@ -76,7 +76,7 @@ async function main() {
 
   try {
     upstreamOwnerAndName = await StagingUtils.getUpstreamBranch();
-    console.log('this is the upstream name ', upstreamConfig);
+    console.log('this is the upstream name ', upstreamOwnerAndName);
   } catch (error) {
     console.error(error);
     return;
