@@ -59,6 +59,7 @@ async function main() {
   try {
     localBranch = await StagingUtils.getBranchName();
   } catch (error) {
+    console.error(error);
     return;
   }
 
@@ -70,6 +71,7 @@ async function main() {
     branchName = upstreamName.split('/');
     console.log("this is upstream name : ", upstreamName, branchName);
   } catch (error) {
+    console.error(error);
     return;
   }
 
@@ -77,6 +79,7 @@ async function main() {
     upstreamOwnerAndName = await StagingUtils.getUpstreamBranch();
     console.log('this is the upstream name ', upstreamConfig);
   } catch (error) {
+    console.error(error);
     return;
   }
   //repoOwner, repoName = mongodb, docs-bi-connector
