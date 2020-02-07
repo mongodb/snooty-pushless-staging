@@ -210,6 +210,7 @@ module.exports = {
       const result = await exec(
         `git rev-parse --abbrev-ref --symbolic-full-name ${localBranchName}@{upstream}`
       );
+      console.log("the result from called function ", result, "\n", result.stdout);
       return result.stdout;
     } catch (error) {
       if (error.code === 128) {
