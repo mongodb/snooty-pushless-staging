@@ -5,11 +5,11 @@ async function main() {
   const patchFlag = process.argv[2];
   const buildSize = process.argv[3];
 
-  let url;
   let upstreamConfig;
   let upstreamName;
   let branchName;
-  let repoName;
+  let upstreamOwnerAndName
+  // let repoName;
   let userEmail;
   const newHead = 'newHead';
 
@@ -45,40 +45,48 @@ async function main() {
     return;
   }
 
-  try {
-    url = await StagingUtils.getRepoInfo();
-  } catch (error) {
-    return;
-  }
 
-  const repoOwner = StagingUtils.getGitUser(url);
 
-  try {
-    repoName = StagingUtils.getRepoName(url);
-  } catch (error) {
-    return;
-  }
+  //const repoOwner = StagingUtils.getGitUser(url);
 
-  try {
-    branchName = await StagingUtils.getBranchName();
-  } catch (error) {
-    return;
-  }
+  // try {
+  //   repoName = StagingUtils.getRepoName(url);
+  // } catch (error) {
+  //   return;
+  // }
 
+  // try {
+  //  = await StagingUtils.getBranchName();
+  // } catch (error) {
+  //   return;
+  // }
+
+  //branch name: upstream/master
   try {
-    upstreamName = await StagingUtils.checkUpstreamConfiguration(branchName);
-    upstreamName = upstreamName.replace(/\r?\n|\r/g, "");
-    console.log("this is upstream name : ", upstreamName);
+    upstreamConfig = await StagingUtils.checkUpstreamConfiguration(branchName);
+    upstreamConfig = upstreamName.replace(/\r?\n|\r/g, "");
+    branchName = upstreamName.split('/');
+    console.log("this is upstream name : ", upstreamName, branchName);
   } catch (error) {
     return;
   }
 
   try {
-    upstreamConfig = await StagingUtils.getUpstreamBranch();
-    console.log('this is the upstream name ', upstreamName);
+    upstreamOwnerAndName = await StagingUtils.getUpstreamBranch();
+    console.log('this is the upstream name ', upstreamConfig);
   } catch (error) {
     return;
   }
+  //repoOwner, repoName = mongodb, docs-bi-connector
+  const { repoOwner, repoName } = upstreamConfig.split('/');
+  const url = `https://github.com/${repoOwner}/${repoName}`;
+
+    // try {
+    //   repoName = StagingUtils.getRepoName(url);
+    // } catch (error) {
+    //   return;
+    // }
+
 
   // toggle btwn create patch from commits or what you have saved locally
   if (patchFlag === 'commit') {
@@ -107,22 +115,22 @@ async function main() {
       buildSize,
       newHead,
     );
- 
-    console.log(payLoad);
-    try {
-      StagingUtils.insertJob(
-        payLoad,
-        `Github Push: ${repoOwner}/${repoName}`,
-        repoOwner,
-        userEmail,
-      );
-    } catch (error) {
-      console.error(error);
-    }
+
+    console.log("this is the payload \n", payLoad);
+    // try {
+    //   StagingUtils.insertJob(
+    //     payLoad,
+    //     `Github Push: ${repoOwner}/${repoName}`,
+    //     repoOwner,
+    //     userEmail,
+    //   );
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 
   if (patchFlag === 'local') {
-    console.log("berfore");
+    console.log("before");
     const patch = await StagingUtils.getGitPatchFromLocal(upstreamName);
     const payLoad = StagingUtils.createPayload(
       repoName,
@@ -134,21 +142,21 @@ async function main() {
       buildSize,
       newHead,
     );
-    console.log("after??");
-    console.log(payLoad);
-    try {
-      await StagingUtils.insertJob(
-        payLoad,
-        `Github Push: ${repoOwner}/${repoName}`,
-        repoOwner,
-        userEmail,
-      );
-    } catch (error) {
-      console.error(error);
-    }
+    console.log("after?? ", payLoad);
+    //console.log(payLoad);
+    // try {
+    //   await StagingUtils.insertJob(
+    //     payLoad,
+    //     `Github Push: ${repoOwner}/${repoName}`,
+    //     repoOwner,
+    //     userEmail,
+    //   );
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 
-  await StagingUtils.deletePatchFile();
+  //await StagingUtils.deletePatchFile();
 }
 
 main();
