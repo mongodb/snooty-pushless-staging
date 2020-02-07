@@ -6,11 +6,8 @@ async function main() {
   const buildSize = process.argv[3];
 
   let upstreamConfig;
-  let upstreamName;
   let upstreamOwnerAndName;
-  // let repoName;
   let localBranch;
-  let userEmail;
   const newHead = 'newHead';
 
   try {
@@ -45,30 +42,17 @@ async function main() {
     return;
   }
 
-
-
-  //const repoOwner = StagingUtils.getGitUser(url);
-
-  // try {
-  //   repoName = StagingUtils.getRepoName(url);
-  // } catch (error) {
-  //   return;
-  // }
-
   try {
     localBranch = await StagingUtils.getBranchName();
   } catch (error) {
     console.error(error);
     return;
   }
-
-  //branch name: upstream/master
   
   try {
     upstreamConfig = await StagingUtils.checkUpstreamConfiguration(localBranch);
     console.log("this is upstream config: ", upstreamConfig);
     upstreamConfig = upstreamConfig.replace(/\r?\n|\r/g, "");
-   
   } catch (error) {
     console.error(error);
     return;
@@ -82,18 +66,12 @@ async function main() {
     console.error(error);
     return;
   }
-  //repoOwner, repoName = mongodb, docs-bi-connector
+
   const [repoOwner, repoName] = upstreamOwnerAndName.split('/');
   console.log(repoOwner, repoName, upstreamOwnerAndName);
-  const { upstr, branchName } = upstreamConfig.split('/');
+  const branchName = upstreamConfig.split('/')[1];
   const url = `https://github.com/${repoOwner}/${repoName}.git`;
-  console.log("this is the url " , url);
-    // try {
-    //   repoName = StagingUtils.getRepoName(url);
-    // } catch (error) {
-    //   return;
-    // }
-
+  console.log("this is the url ", url);
 
   // toggle btwn create patch from commits or what you have saved locally
   if (patchFlag === 'commit') {
@@ -138,7 +116,7 @@ async function main() {
 
   if (patchFlag === 'local') {
     console.log("before");
-    const patch = await StagingUtils.getGitPatchFromLocal(upstreamName);
+    const patch = await StagingUtils.getGitPatchFromLocal(upstreamConfig);
     const payLoad = StagingUtils.createPayload(
       repoName,
       branchName,
