@@ -83,7 +83,7 @@ async function main() {
     return;
   }
   //repoOwner, repoName = mongodb, docs-bi-connector
-  const { repoOwner, repoName } = upstreamOwnerAndName.split('/');
+  const [repoOwner, repoName] = upstreamOwnerAndName.split('/');
   console.log(repoOwner, repoName, upstreamOwnerAndName);
   const { upstr, branchName } = upstreamConfig.split('/');
   const url = `https://github.com/${repoOwner}/${repoName}.git`;
