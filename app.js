@@ -1,7 +1,6 @@
 const StagingUtils = require('./stagingUtils');
 
 async function main() {
-  console.log("WE ARE CALLED!!!!!");
   const patchFlag = process.argv[2];
   const buildSize = process.argv[3];
 
@@ -114,7 +113,6 @@ async function main() {
       localBranch,
     );
 
-    console.log("this is the payload \n", payLoad);
     try {
       StagingUtils.insertJob(
         payLoad,
@@ -128,7 +126,6 @@ async function main() {
   }
 
   if (patchFlag === 'local') {
-    console.log("before");
     const patch = await StagingUtils.getGitPatchFromLocal(upstreamConfig);
     const payLoad = StagingUtils.createPayload(
       repoName,
@@ -141,8 +138,7 @@ async function main() {
       newHead,
       localBranch,
     );
-    console.log("after?? ", payLoad);
-    //console.log(payLoad);
+
     try {
       await StagingUtils.insertJob(
         payLoad,
@@ -155,7 +151,7 @@ async function main() {
     }
   }
 
-  //await StagingUtils.deletePatchFile();
+  await StagingUtils.deletePatchFile();
 }
 
 main();
