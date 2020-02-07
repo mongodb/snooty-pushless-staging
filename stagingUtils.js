@@ -25,7 +25,8 @@ module.exports = {
       payload: payloadObj,
       logs: {},
     };
-
+    console.log(newJob);
+    return;
     const filterDoc = {
       payload: payloadObj,
       status: { $in: ['inProgress', 'inQueue'] }

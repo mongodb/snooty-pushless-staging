@@ -7,6 +7,7 @@ async function main() {
 
   let upstreamConfig;
   let upstreamOwnerAndName;
+  let userEmail;
   let localBranch;
   const newHead = 'newHead';
 
@@ -48,7 +49,7 @@ async function main() {
     console.error(error);
     return;
   }
-  
+
   try {
     upstreamConfig = await StagingUtils.checkUpstreamConfiguration(localBranch);
     console.log("this is upstream config: ", upstreamConfig);
@@ -102,16 +103,16 @@ async function main() {
     );
 
     console.log("this is the payload \n", payLoad);
-    // try {
-    //   StagingUtils.insertJob(
-    //     payLoad,
-    //     `Github Push: ${repoOwner}/${repoName}`,
-    //     repoOwner,
-    //     userEmail,
-    //   );
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      StagingUtils.insertJob(
+        payLoad,
+        `Github Push from Server Staging Scripts: ${repoOwner}/${repoName}`,
+        repoOwner,
+        userEmail,
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (patchFlag === 'local') {
@@ -129,16 +130,16 @@ async function main() {
     );
     console.log("after?? ", payLoad);
     //console.log(payLoad);
-    // try {
-    //   await StagingUtils.insertJob(
-    //     payLoad,
-    //     `Github Push: ${repoOwner}/${repoName}`,
-    //     repoOwner,
-    //     userEmail,
-    //   );
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      await StagingUtils.insertJob(
+        payLoad,
+        `Github Push: ${userEmail}/${repoName}`,
+        repoOwner,
+        userEmail,
+      );
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   //await StagingUtils.deletePatchFile();
