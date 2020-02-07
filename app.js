@@ -111,6 +111,7 @@ async function main() {
       buildSize,
       newHead,
     );
+ 
     console.log(payLoad);
     // try {
     //   StagingUtils.insertJob(
@@ -126,6 +127,7 @@ async function main() {
 
   if (patchFlag === 'local') {
     const patch = await StagingUtils.getGitPatchFromLocal(upstreamName);
+    console.log("berfore")
     const payLoad = StagingUtils.createPayload(
       repoName,
       branchName,
@@ -136,7 +138,8 @@ async function main() {
       buildSize,
       newHead,
     );
-      console.log(payLoad);
+    console.log("after??")
+    console.log(payLoad);
     // try {
     //   await StagingUtils.insertJob(
     //     payLoad,

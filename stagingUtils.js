@@ -36,17 +36,16 @@ module.exports = {
     // connect to your cluster
     const client = await MongoClient.connect(uri, {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     });
 
     // specify the DB's name
     const collection = client.db(dbName).collection(collName);
 
-    let resultOfQuery;
     // execute update query
     try {
       const result = await collection.updateOne(filterDoc, updateDoc, {
-        upsert: true
+        upsert: true,
       });
 
       if (result.upsertedId) {
@@ -93,7 +92,7 @@ module.exports = {
       newHead: lastCommit,
       patch: patchArg,
     };
-
+    console.log("hello???");
     return payload;
   },
 
