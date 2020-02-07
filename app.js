@@ -77,6 +77,7 @@ async function main() {
   try {
     upstreamOwnerAndName = await StagingUtils.getUpstreamBranch();
     console.log('this is the upstream name ', upstreamOwnerAndName);
+    console.log(' split owner and name ', upstreamOwnerAndName.split('/'));
   } catch (error) {
     console.error(error);
     return;
