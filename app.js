@@ -69,7 +69,6 @@ async function main() {
     console.log("this is upstream config: ", upstreamConfig);
     upstreamConfig = upstreamConfig.replace(/\r?\n|\r/g, "");
    
-    console.log("this is upstream name : ", upstreamConfig, branchName);
   } catch (error) {
     console.error(error);
     return;
