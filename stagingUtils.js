@@ -197,7 +197,7 @@ module.exports = {
     try {
       const upstream = await (await exec('git remote -v')).stdout;
       //console.log('type of ', typeof upstream.stdout, upstream.stdout, upstream);
-      const arrs = upstream.split('/n');
+      const arrs = upstream.split('+');
       console.log("who this is the split arr ", arrs)
       const upstreambranch = (arrs[2].replace('upstream	', '')).replace(' (fetch)', '');
       console.log("did we get the org?? ", upstreambranch);
