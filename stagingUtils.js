@@ -77,6 +77,7 @@ module.exports = {
     patchArg,
     buildSizeArg,
     lastCommit,
+    localBranchArg,
   ) {
     const payload = {
       jobType: 'githubPush',
@@ -85,6 +86,7 @@ module.exports = {
       repoName: repoNameArg,
       branchName: upstreamBranchName,
       upstream: upstreamConfig,
+      localBranchName: localBranchArg,
       isFork: true,
       private: false,
       isXlarge: false,

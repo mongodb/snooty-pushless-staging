@@ -111,6 +111,7 @@ async function main() {
       patch,
       buildSize,
       newHead,
+      localBranch,
     );
 
     console.log("this is the payload \n", payLoad);
@@ -138,6 +139,7 @@ async function main() {
       patch,
       buildSize,
       newHead,
+      localBranch,
     );
     console.log("after?? ", payLoad);
     //console.log(payLoad);
