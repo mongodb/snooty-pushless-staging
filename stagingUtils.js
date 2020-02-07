@@ -208,7 +208,7 @@ module.exports = {
   async checkUpstreamConfiguration(localBranchName) {
     try {
       const result = await exec(
-        `git rev-parse --abbrev-ref --symbolic-full-name ${branchName}@{upstream}`
+        `git rev-parse --abbrev-ref --symbolic-full-name ${localBranchName}@{upstream}`
       );
       return result.stdout;
     } catch (error) {
