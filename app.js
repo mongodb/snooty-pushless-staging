@@ -10,6 +10,7 @@ async function main() {
   let branchName;
   let upstreamOwnerAndName
   // let repoName;
+  let localBranch;
   let userEmail;
   const newHead = 'newHead';
 
@@ -55,15 +56,16 @@ async function main() {
   //   return;
   // }
 
-  // try {
-  //  = await StagingUtils.getBranchName();
-  // } catch (error) {
-  //   return;
-  // }
+  try {
+    localBranch = await StagingUtils.getBranchName();
+  } catch (error) {
+    return;
+  }
 
   //branch name: upstream/master
+  
   try {
-    upstreamConfig = await StagingUtils.checkUpstreamConfiguration(branchName);
+    upstreamConfig = await StagingUtils.checkUpstreamConfiguration(localBranch);
     upstreamConfig = upstreamName.replace(/\r?\n|\r/g, "");
     branchName = upstreamName.split('/');
     console.log("this is upstream name : ", upstreamName, branchName);
