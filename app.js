@@ -66,7 +66,7 @@ async function main() {
   }
 
   try {
-    upstreamConfig = await StagingUtils.checkUpstreamConfiguration(branchName);
+    upstreamName = await StagingUtils.checkUpstreamConfiguration(branchName);
     console.log('this is the upstream config ', upstreamConfig);
   } catch (error) {
     return;
@@ -74,7 +74,7 @@ async function main() {
 
   try {
     //upstreamName = StagingUtils.getUpstreamName(upstreamConfig).trim(); //remove \n
-    upstreamName = await StagingUtils.getUpstreamBranch();
+    upstreamConfig = await StagingUtils.getUpstreamBranch();
     console.log('this is the upstream name ', upstreamName);
   } catch (error) {
     return;
@@ -108,7 +108,7 @@ async function main() {
     const payLoad = StagingUtils.createPayload(
       repoName,
       branchName,
-      upstreamName,
+      upstreamConfig,
       repoOwner,
       url,
       patch,
@@ -133,7 +133,7 @@ async function main() {
     const payLoad = StagingUtils.createPayload(
       repoName,
       branchName,
-      upstreamName,
+      upstreamConfig,
       repoOwner,
       url,
       patch,
