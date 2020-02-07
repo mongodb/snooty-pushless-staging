@@ -1,10 +1,9 @@
-const StagingUtils = require("./stagingUtils");
+const StagingUtils = require('./stagingUtils');
 
 async function main() {
-
   const patchFlag = process.argv[2];
   const buildSize = process.argv[3];
-  
+
   let url;
   let upstreamConfig;
   let upstreamName;
@@ -12,12 +11,12 @@ async function main() {
   let branchName;
   let repoName;
   let userEmail;
-  const newHead = "newHead";
-  
+  const newHead = 'newHead';
+
   try {
     StagingUtils.validateConfiguration();
   } catch (error) {
-    return
+    return;
   }
 
   if (patchFlag === undefined) {
@@ -29,7 +28,7 @@ async function main() {
 
   let invalidFlag = false;
 
-  if (patchFlag !== "local" && patchFlag !== "commit") {
+  if (patchFlag !== 'local' && patchFlag !== 'commit') {
     console.log(
       'Invalid patch flag. Use "commit" to stage a build from the committed work you have locally or use "local" to stage a build from the uncommitted work you have locally'
     );
@@ -39,17 +38,17 @@ async function main() {
   if (invalidFlag === true) {
     return;
   }
-  
+
   try {
     userEmail = await StagingUtils.getGitEmail();
   } catch (error) {
-    return
+    return;
   }
-  
+
   try {
     url = await StagingUtils.getRepoInfo();
   } catch (error) {
-    return
+    return;
   }
 
   const repoOwner = StagingUtils.getGitUser(url);
@@ -57,44 +56,43 @@ async function main() {
   try {
     repoName = StagingUtils.getRepoName(url);
   } catch (error) {
-    return
+    return;
   }
 
   try {
     branchName = await StagingUtils.getBranchName();
   } catch (error) {
-    return
+    return;
   }
 
   try {
     upstreamConfig = await StagingUtils.checkUpstreamConfiguration(branchName);
   } catch (error) {
-    return
+    return;
   }
-  
+
   try {
     upstreamName = StagingUtils.getUpstreamName(upstreamConfig).trim(); //remove \n
   } catch (error) {
-    return
+    return;
   }
-  
+
   try {
     doesRemoteHaveLocalBranch = await StagingUtils.doesRemoteHaveLocalBranch(branchName);
   } catch (error) {
     return;
   }
-  
+
   const branchNameForPayload = doesRemoteHaveLocalBranch ? branchName : upstreamName;
 
   // toggle btwn create patch from commits or what you have saved locally
-  if (patchFlag === "commit") {
-    let firstCommit; 
+  if (patchFlag === 'commit') {
+    let firstCommit;
     let lastCommit;
 
     try {
       const commits = await StagingUtils.getGitCommits();
-      firstCommit = commits[0];
-      lastCommit = commits[1];
+      [firstCommit, lastCommit] = commits;
     } catch (error) {
       console.error(error);
       return;
@@ -102,7 +100,7 @@ async function main() {
 
     const patch = await StagingUtils.getGitPatchFromCommits(
       firstCommit,
-      lastCommit
+      lastCommit,
     );
     const payLoad = StagingUtils.createPayload(
       repoName,
@@ -111,7 +109,7 @@ async function main() {
       url,
       patch,
       buildSize,
-      newHead
+      newHead,
     );
 
     try {
@@ -119,14 +117,14 @@ async function main() {
         payLoad,
         `Github Push: ${repoOwner}/${repoName}`,
         repoOwner,
-        userEmail
+        userEmail,
       );
     } catch (error) {
-      console.error(err);
+      console.error(error);
     }
   }
 
-  if (patchFlag === "local") {
+  if (patchFlag === 'local') {
     const patch = await StagingUtils.getGitPatchFromLocal(upstreamName);
     const payLoad = StagingUtils.createPayload(
       repoName,
@@ -135,7 +133,7 @@ async function main() {
       url,
       patch,
       buildSize,
-      newHead
+      newHead,
     );
 
     try {
@@ -143,13 +141,11 @@ async function main() {
         payLoad,
         `Github Push: ${repoOwner}/${repoName}`,
         repoOwner,
-        userEmail
+        userEmail,
       );
     } catch (error) {
-      console.error(err);
+      console.error(error);
     }
-
-
   }
 
   await StagingUtils.deletePatchFile();
