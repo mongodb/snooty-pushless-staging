@@ -80,12 +80,6 @@ async function main() {
     return;
   }
 
-  try {
-    doesRemoteHaveLocalBranch = await StagingUtils.doesRemoteHaveLocalBranch(branchName);
-  } catch (error) {
-    return;
-  }
-
   // toggle btwn create patch from commits or what you have saved locally
   if (patchFlag === 'commit') {
     let firstCommit;
