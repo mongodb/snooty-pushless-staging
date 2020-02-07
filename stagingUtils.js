@@ -196,11 +196,11 @@ module.exports = {
   async getUpstreamBranch() {
     try {
       const upstream = await exec('git remote -v');
-      console.log('this is upstream ', upstream['stdout'], upstream.stdout);
-      const arrs = upstream.split('/n');
-      const upstreambranch = (arrs[2].replace('upstream	', '')).replace(' (fetch)', '');
-      console.log("did we get the org?? ", upstreambranch);
-      return upstreambranch;
+      console.log('type of ', typeof upstream.stdout);
+      // const arrs = upstream.stdout split('/n');
+      // const upstreambranch = (arrs[2].replace('upstream	', '')).replace(' (fetch)', '');
+      // console.log("did we get the org?? ", upstreambranch);
+      return 'no';
     } catch (error) {
       console.error(error);
       throw error;
