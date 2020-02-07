@@ -74,7 +74,7 @@ async function main() {
 
   try {
     //upstreamName = StagingUtils.getUpstreamName(upstreamConfig).trim(); //remove \n
-    upstreamName = StagingUtils.getUpstreamBranch();
+    upstreamName = await StagingUtils.getUpstreamBranch();
     console.log('this is the upstream name ', upstreamName);
   } catch (error) {
     return;
