@@ -102,6 +102,10 @@ async function main() {
       firstCommit,
       lastCommit,
     );
+    console.log(repoName)
+    console.log(branchName)
+    console.log(repoOwner)
+    console.log
     const payLoad = StagingUtils.createPayload(
       repoName,
       branchName,
