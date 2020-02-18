@@ -113,7 +113,7 @@ async function main() {
       StagingUtils.insertJob(
         payLoad,
         `Github Push from Server Staging Scripts: ${repoOwner}/${repoName}`,
-        repoOwner,
+        user,
         userEmail,
       );
     } catch (error) {
