@@ -61,8 +61,6 @@ async function main() {
 
   try {
     upstreamOwnerAndName = await StagingUtils.getUpstreamBranch();
-    console.log('this is the upstream name ', upstreamOwnerAndName);
-    console.log(' split owner and name ', upstreamOwnerAndName.split('/'));
   } catch (error) {
     console.error(error);
     return;
@@ -103,7 +101,7 @@ async function main() {
       repoName,
       branchName,
       upstreamConfig,
-      repoOwner,
+      user,
       url,
       patch,
       buildSize,
@@ -130,7 +128,7 @@ async function main() {
       repoName,
       branchName,
       upstreamConfig,
-      repoOwner,
+      user,
       url,
       patch,
       buildSize,
