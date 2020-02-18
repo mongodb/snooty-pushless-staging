@@ -117,7 +117,6 @@ module.exports = {
     repoName = repoName[repoName.length - 1];
     repoName = repoName.replace('.git', '');
     repoName = repoName.replace('\n', '');
-    console.log("this is reponame: ", repoName);
     return repoName;
   },
 
