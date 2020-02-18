@@ -89,7 +89,7 @@ module.exports = {
       localBranchName: localBranchArg,
       isFork: true,
       private: false,
-      isXlarge: false,
+      isXlarge: true,
       repoOwner: repoOwnerArg,
       url: urlArg,
       newHead: lastCommit,
