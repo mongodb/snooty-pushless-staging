@@ -69,7 +69,6 @@ async function main() {
   try {
     repoInfo = await StagingUtils.getRepoInfo();
     user = StagingUtils.getGitUser(repoInfo);
-    console.log(repoInfo, user);
   } catch (error) {
     console.log("error ", error);
     return;
@@ -108,7 +107,7 @@ async function main() {
       newHead,
       localBranch,
     );
-    console.log(payLoad);
+
 
     try {
       StagingUtils.insertJob(
@@ -135,7 +134,7 @@ async function main() {
       newHead,
       localBranch,
     );
-    console.log(payLoad);
+
     try {
       await StagingUtils.insertJob(
         payLoad,

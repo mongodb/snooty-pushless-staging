@@ -163,11 +163,9 @@ module.exports = {
   },
 
   getGitUser(url) {
-    console.log("hi this is get git user ", url);
     let repoOwner = url.split('/');
     repoOwner = repoOwner[repoOwner.length - 2];
-    repoOwner = repoOwner.replace('git@github.com:', "");
-    console.log("this is repo owner which is kind of confusing ", repoOwner);
+    repoOwner = repoOwner.replace('git@github.com:', '');
     return repoOwner;
   },
 
