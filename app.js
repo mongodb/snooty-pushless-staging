@@ -1,7 +1,6 @@
 const StagingUtils = require('./stagingUtils');
 
 async function main() {
-  console.log("WE ARE CALLED!!!!!");
   const patchFlag = process.argv[2];
   const buildSize = process.argv[3];
 
@@ -54,7 +53,6 @@ async function main() {
 
   try {
     upstreamConfig = await StagingUtils.checkUpstreamConfiguration(localBranch);
-    console.log("this is upstream config: ", upstreamConfig);
     upstreamConfig = upstreamConfig.replace(/\r?\n|\r/g, "");
   } catch (error) {
     console.error(error);
@@ -80,10 +78,8 @@ async function main() {
   }
 
   const [repoOwner, repoName] = upstreamOwnerAndName.split('/');
-  console.log(repoOwner, repoName, upstreamOwnerAndName);
   const branchName = upstreamConfig.split('/')[1];
   const url = `https://github.com/${repoOwner}/${repoName}.git`;
-  console.log("this is the url ", url);
 
   // toggle btwn create patch from commits or what you have saved locally
   if (patchFlag === 'commit') {
@@ -102,6 +98,7 @@ async function main() {
       firstCommit,
       lastCommit,
     );
+
     const payLoad = StagingUtils.createPayload(
       repoName,
       branchName,
@@ -113,8 +110,8 @@ async function main() {
       newHead,
       localBranch,
     );
+    console.log(payLoad);
 
-    console.log("this is the payload \n", payLoad);
     try {
       StagingUtils.insertJob(
         payLoad,
@@ -128,7 +125,6 @@ async function main() {
   }
 
   if (patchFlag === 'local') {
-    console.log("before");
     const patch = await StagingUtils.getGitPatchFromLocal(upstreamConfig);
     const payLoad = StagingUtils.createPayload(
       repoName,
@@ -141,8 +137,7 @@ async function main() {
       newHead,
       localBranch,
     );
-    console.log("after?? ", payLoad);
-    //console.log(payLoad);
+    console.log(payLoad);
     try {
       await StagingUtils.insertJob(
         payLoad,
@@ -155,7 +150,7 @@ async function main() {
     }
   }
 
-  //await StagingUtils.deletePatchFile();
+  await StagingUtils.deletePatchFile();
 }
 
 main();

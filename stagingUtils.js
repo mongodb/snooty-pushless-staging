@@ -25,11 +25,10 @@ module.exports = {
       payload: payloadObj,
       logs: {},
     };
-    console.log(newJob);
 
     const filterDoc = {
       payload: payloadObj,
-      status: { $in: ['inProgress', 'inQueue'] }
+      status: { $in: ['inProgress', 'inQueue'] },
     };
     const updateDoc = { $setOnInsert: newJob };
 
@@ -95,7 +94,7 @@ module.exports = {
       newHead: lastCommit,
       patch: patchArg,
     };
-    console.log("hello???");
+
     return payload;
   },
 
@@ -118,6 +117,7 @@ module.exports = {
     repoName = repoName[repoName.length - 1];
     repoName = repoName.replace('.git', '');
     repoName = repoName.replace('\n', '');
+    console.log("this is reponame: ", repoName);
     return repoName;
   },
 
@@ -163,8 +163,10 @@ module.exports = {
   },
 
   getGitUser(url) {
+    console.log(url);
     let repoOwner = url.split('/');
     repoOwner = repoOwner[repoOwner.length - 2];
+    console.log(repoOwner);
     return repoOwner;
   },
 
@@ -199,8 +201,8 @@ module.exports = {
     try {
       const forkConfig = (await exec('git remote -v')).stdout;
       const configArray = forkConfig.split('\n');
-      const upstreambranch = (configArray[2].replace('upstream	git@github.com:', '')).replace('.git (fetch)', '');
-
+      let upstreambranch = (configArray[2].replace('upstream	git@github.com:', ''));
+      upstreambranch = upstreambranch.replace(' (fetch)', '');
       return upstreambranch;
     } catch (error) {
       console.error(error);
@@ -213,7 +215,7 @@ module.exports = {
       const result = await exec(
         `git rev-parse --abbrev-ref --symbolic-full-name ${localBranchName}@{upstream}`
       );
-      console.log("the result from called function ", result, "\n", result.stdout);
+
       return result.stdout;
     } catch (error) {
       if (error.code === 128) {
