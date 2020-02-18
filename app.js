@@ -71,6 +71,7 @@ async function main() {
 
   try {
     repoInfo = await StagingUtils.getRepoInfo();
+    console.log(repoInfo);
     user = StagingUtils.getGitUser(repoInfo);
     console.log(repoInfo, user);
   } catch (error) {
@@ -81,8 +82,8 @@ async function main() {
   const [repoOwner, repoName] = upstreamOwnerAndName.split('/');
   console.log(repoOwner, repoName, upstreamOwnerAndName);
   const branchName = upstreamConfig.split('/')[1];
-  const url = `https://github.com/${repoOwner}/${repoName}.git`;
-  console.log("this is the url ", url);
+  const url = `https://github.com/${user}/${repoName}.git`;
+  console.log("this is the url ", url, `https://github.com/${user}/${repoName}.git`);
 
   // toggle btwn create patch from commits or what you have saved locally
   if (patchFlag === 'commit') {

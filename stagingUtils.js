@@ -117,6 +117,7 @@ module.exports = {
     repoName = repoName[repoName.length - 1];
     repoName = repoName.replace('.git', '');
     repoName = repoName.replace('\n', '');
+    console.log("this is reponame: ", repoName);
     return repoName;
   },
 
@@ -162,8 +163,10 @@ module.exports = {
   },
 
   getGitUser(url) {
+    console.log(url);
     let repoOwner = url.split('/');
     repoOwner = repoOwner[repoOwner.length - 2];
+    console.log(repoOwner);
     return repoOwner;
   },
 
