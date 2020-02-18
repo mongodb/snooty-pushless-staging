@@ -9,7 +9,7 @@ async function main() {
   let userEmail;
   let user;
   let localBranch;
-  const newHead = 'newHead';
+  const newHead = '';
 
   try {
     StagingUtils.validateConfiguration();
