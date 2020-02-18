@@ -53,7 +53,6 @@ async function main() {
 
   try {
     upstreamConfig = await StagingUtils.checkUpstreamConfiguration(localBranch);
-    console.log("this is upstream config: ", upstreamConfig);
     upstreamConfig = upstreamConfig.replace(/\r?\n|\r/g, "");
   } catch (error) {
     console.error(error);
@@ -71,7 +70,6 @@ async function main() {
 
   try {
     repoInfo = await StagingUtils.getRepoInfo();
-    console.log("this is repo info ", repoInfo);
     user = StagingUtils.getGitUser(repoInfo);
     console.log(repoInfo, user);
   } catch (error) {
@@ -80,10 +78,8 @@ async function main() {
   }
 
   const [repoOwner, repoName] = upstreamOwnerAndName.split('/');
-  console.log(33333, repoOwner, repoName, upstreamOwnerAndName);
   const branchName = upstreamConfig.split('/')[1];
-  const url = `https://github.com/${user}/${repoName}.git`;
-  console.log("this is the url ", url, `https://github.com/${user}/${repoName}.git`);
+  const url = `https://github.com/${repoOwner}/${repoName}.git`;
 
   // toggle btwn create patch from commits or what you have saved locally
   if (patchFlag === 'commit') {
@@ -102,10 +98,7 @@ async function main() {
       firstCommit,
       lastCommit,
     );
-    console.log(repoName)
-    console.log(branchName)
-    console.log(repoOwner)
-    console.log
+
     const payLoad = StagingUtils.createPayload(
       repoName,
       branchName,
@@ -117,6 +110,7 @@ async function main() {
       newHead,
       localBranch,
     );
+    console.log(payLoad);
 
     try {
       StagingUtils.insertJob(
@@ -143,7 +137,7 @@ async function main() {
       newHead,
       localBranch,
     );
-
+    console.log(payLoad);
     try {
       await StagingUtils.insertJob(
         payLoad,

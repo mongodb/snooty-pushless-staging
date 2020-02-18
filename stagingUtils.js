@@ -28,7 +28,7 @@ module.exports = {
 
     const filterDoc = {
       payload: payloadObj,
-      status: { $in: ['inProgress', 'inQueue'] }
+      status: { $in: ['inProgress', 'inQueue'] },
     };
     const updateDoc = { $setOnInsert: newJob };
 
@@ -203,7 +203,6 @@ module.exports = {
       const configArray = forkConfig.split('\n');
       let upstreambranch = (configArray[2].replace('upstream	git@github.com:', ''));
       upstreambranch = upstreambranch.replace(' (fetch)', '');
-      console.log(4444, upstreambranch);
       return upstreambranch;
     } catch (error) {
       console.error(error);
