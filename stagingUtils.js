@@ -199,10 +199,13 @@ module.exports = {
     try {
       const forkConfig = (await exec('git remote -v')).stdout;
       const configArray = forkConfig.split('\n');
+      console.log("before clean up ", configArray);
       let upstreambranch = (configArray[2].replace('upstream', ''));
+      upstreambranch = upstreambranch.replace('.git', '');
       upstreambranch = upstreambranch.replace('git@github.com:', '');
       upstreambranch = upstreambranch.replace(' (fetch)', '');
       upstreambranch = upstreambranch.replace(/\s/g, '');
+      console.log('after clean up ', upstreambranch);
       return upstreambranch;
     } catch (error) {
       console.error(error);
