@@ -107,7 +107,6 @@ async function main() {
       newHead,
       localBranch,
     );
-      console.log(payLoad);
 
     try {
       StagingUtils.insertJob(
@@ -134,7 +133,7 @@ async function main() {
       newHead,
       localBranch,
     );
-    console.log(payLoad)
+
     try {
       await StagingUtils.insertJob(
         payLoad,
