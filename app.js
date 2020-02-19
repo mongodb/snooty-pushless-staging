@@ -1,7 +1,6 @@
 const StagingUtils = require('./stagingUtils');
 
 async function main() {
-  console.log("ARE YOU OUT THERE?????")
   const patchFlag = process.argv[2];
   const buildSize = process.argv[3];
 
