@@ -195,18 +195,17 @@ module.exports = {
     });
   },
 
-  async getUpstreamBranch() {
+  async getUpstreamRepo() {
     try {
       const forkConfig = (await exec('git remote -v')).stdout;
       const configArray = forkConfig.split('\n');
 
-      let upstreambranch = (configArray[2].replace('upstream', ''));
-      // upstreambranch = upstreambranch.replace('.git', '');
-      // upstreambranch = upstreambranch.replace('git@github.com:', '');
-      // upstreambranch = upstreambranch.replace(' (fetch)', '');
-      upstreambranch = upstreambranch.replace(/(\S)+[:]((\S)+)/g, '');
-      console.log("after cleaning: ", upstreambranch);
-      return upstreambranch;
+      let upstreamRepo = (configArray[2].replace('upstream', ''));
+      upstreamRepo = upstreamRepo.split(/(\S)+[:]((\S)+)/);
+      upstreamRepo = upstreamRepo[2];
+
+      console.log("after cleaning: ", upstreamRepo);
+      return upstreamRepo;
     } catch (error) {
       console.error(error);
       throw error;
