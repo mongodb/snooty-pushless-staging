@@ -1,7 +1,7 @@
 {
   "name": "snooty-scripts",
   "version": "1.0.0",
-  "description": "",
+  "description": "Script for staging server docs",
   "main": "app.js",
   "dependencies": {
     "child_process": "^1.0.2",
