@@ -204,7 +204,7 @@ module.exports = {
 
       for (let i = 0; i < configArray.length; i++) {
         if (configArray[i].indexOf('upstream') > -1) {
-          let upstreamRepo = (configArray[2].replace('upstream', ''));
+          let upstreamRepo = (configArray[i].replace('upstream', ''));
           upstreamRepo = upstreamRepo.split(/(\S)+[:]((\S)+)/);
           upstreamRepo = upstreamRepo[2];
           return upstreamRepo;
