@@ -210,6 +210,27 @@ module.exports = {
       throw error;
     }
   },
+  async checkIfPrivateRepo(url) {
+    return new Promise((resolve, reject) => {
+      exec(`curl ${url} --head > visibility.txt`)
+        .then(() => {
+          fs.readFile('visibility.txt', 'utf8', (err, data) => {
+            if (err) {
+              console.log('error reading patch file: ', err);
+              return reject(err);
+            }
+            if (data.includes('HTTP/1.1 200 OK')) {
+              return resolve(true);
+            }
+            return resolve(false);
+          });
+        })
+        .catch((error) => {
+          console.error('error generating patch: ', error);
+          return reject(error);
+        });
+    });
+  },
 
   async checkUpstreamConfiguration(localBranchName) {
     try {
