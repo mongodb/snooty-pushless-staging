@@ -77,6 +77,7 @@ module.exports = {
     buildSizeArg,
     lastCommit,
     localBranchArg,
+    visibility,
   ) {
     const payload = {
       jobType: 'githubPush',
@@ -87,7 +88,7 @@ module.exports = {
       upstream: upstreamConfig,
       localBranchName: localBranchArg,
       isFork: true,
-      private: false,
+      private: visibility,
       isXlarge: true,
       repoOwner: repoOwnerArg,
       url: urlArg,
@@ -211,12 +212,13 @@ module.exports = {
     }
   },
   async checkIfPrivateRepo(url) {
+    let cleanedURL = url.replace('.git', '');
+    cleanedURL = cleanedURL.replace(/\r?\n|\r/g, '');
     return new Promise((resolve, reject) => {
-      exec(`curl ${url} --head > visibility.txt`)
+      exec(`curl ${cleanedURL} --head > visibility.txt`)
         .then(() => {
           fs.readFile('visibility.txt', 'utf8', (err, data) => {
             if (err) {
-              console.log('error reading patch file: ', err);
               return reject(err);
             }
             if (data.includes('HTTP/1.1 200 OK')) {
@@ -225,10 +227,7 @@ module.exports = {
             return resolve(false);
           });
         })
-        .catch((error) => {
-          console.error('error generating patch: ', error);
-          return reject(error);
-        });
+        .catch((error) => reject(error));
     });
   },
 
