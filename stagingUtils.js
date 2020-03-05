@@ -1,3 +1,5 @@
+/* eslint-disable prefer-destructuring */
+/* eslint-disable no-plusplus */
 const { promisify } = require('util');
 const exec = promisify(require('child_process').exec);
 const fs = require('fs');
@@ -197,13 +199,8 @@ module.exports = {
 
   async getUpstreamRepo() {
     try {
-      const forkConfig = (await exec('git remote -v')).stdout;
-      const configArray = forkConfig.split('\n');
-
-      let upstreamRepo = (configArray[2].replace('upstream', ''));
-      upstreamRepo = upstreamRepo.split(/(\S)+[:]((\S)+)/);
-      upstreamRepo = upstreamRepo[2];
-
+      const forkConfig = (await exec('git remote get-url upstream')).stdout;
+      const upstreamRepo = (forkConfig.replace('git@github.com:', ''));
       return upstreamRepo;
     } catch (error) {
       console.error(error);
