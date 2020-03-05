@@ -70,7 +70,7 @@ async function main() {
     repoInfo = await StagingUtils.getRepoInfo();
     user = StagingUtils.getGitUser(repoInfo);
   } catch (error) {
-    console.log("error ", error);
+    console.log('error ', error);
     return;
   }
 
@@ -78,6 +78,7 @@ async function main() {
   const branchName = upstreamConfig.split('/')[1];
   const url = `https://github.com/${repoOwner}/${repoName}`;
   repoName = repoName.replace('.git', '');
+  const visibility = await StagingUtils.checkIfPrivateRepo(url);
   // toggle btwn create patch from commits or what you have saved locally
   if (patchFlag === 'commit') {
     let firstCommit;
@@ -106,6 +107,7 @@ async function main() {
       buildSize,
       newHead,
       localBranch,
+      visibility,
     );
 
     try {

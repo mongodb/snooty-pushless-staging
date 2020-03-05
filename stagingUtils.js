@@ -79,6 +79,7 @@ module.exports = {
     buildSizeArg,
     lastCommit,
     localBranchArg,
+    visibility,
   ) {
     const payload = {
       jobType: 'githubPush',
@@ -89,7 +90,7 @@ module.exports = {
       upstream: upstreamConfig,
       localBranchName: localBranchArg,
       isFork: true,
-      private: false,
+      private: visibility,
       isXlarge: true,
       repoOwner: repoOwnerArg,
       url: urlArg,
@@ -206,6 +207,25 @@ module.exports = {
       console.error(error);
       throw error;
     }
+  },
+  async checkIfPrivateRepo(url) {
+    let cleanedURL = url.replace('.git', '');
+    cleanedURL = cleanedURL.replace(/\r?\n|\r/g, '');
+    return new Promise((resolve, reject) => {
+      exec(`curl ${cleanedURL} --head > visibility.txt`)
+        .then(() => {
+          fs.readFile('visibility.txt', 'utf8', (err, data) => {
+            if (err) {
+              return reject(err);
+            }
+            if (data.includes('HTTP/1.1 200 OK')) {
+              return resolve(true);
+            }
+            return resolve(false);
+          });
+        })
+        .catch((error) => reject(error));
+    });
   },
 
   async checkUpstreamConfiguration(localBranchName) {
