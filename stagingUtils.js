@@ -200,7 +200,7 @@ module.exports = {
   async getUpstreamRepo() {
     try {
       const forkConfig = (await exec('git remote get-url upstream')).stdout;
-      let upstreamRepo = (forkConfig.replace('git@github.com:', ''));
+      const upstreamRepo = (forkConfig.replace('git@github.com:', ''));
       return upstreamRepo;
     } catch (error) {
       console.error(error);
