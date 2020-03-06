@@ -202,9 +202,7 @@ module.exports = {
       const forkConfig = (await exec('git remote get-url upstream')).stdout;
       let upstreamRepo = forkConfig.replace('git@github.com:', '');
       // clean up new line char
-      console.log("the not clean repo : " + upstreamRepo + "hahah")
       upstreamRepo = upstreamRepo.replace(/\r?\n|\r/g, '');
-      console.log("the cleaned up repo : " + upstreamRepo + "hahah")
       return upstreamRepo;
     } catch (error) {
       console.error(error);
