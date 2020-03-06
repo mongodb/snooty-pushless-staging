@@ -79,7 +79,6 @@ module.exports = {
     buildSizeArg,
     lastCommit,
     localBranchArg,
-    visibility,
   ) {
     const payload = {
       jobType: 'githubPush',
@@ -90,7 +89,7 @@ module.exports = {
       upstream: upstreamConfig,
       localBranchName: localBranchArg,
       isFork: true,
-      private: visibility,
+      private: true,
       isXlarge: true,
       repoOwner: repoOwnerArg,
       url: urlArg,
@@ -201,31 +200,16 @@ module.exports = {
   async getUpstreamRepo() {
     try {
       const forkConfig = (await exec('git remote get-url upstream')).stdout;
-      const upstreamRepo = (forkConfig.replace('git@github.com:', ''));
+      let upstreamRepo = forkConfig.replace('git@github.com:', '');
+      // clean up new line char
+      console.log("the not clean repo : " + upstreamRepo + "hahah")
+      upstreamRepo = upstreamRepo.replace(/\r?\n|\r/g, '');
+      console.log("the cleaned up repo : " + upstreamRepo + "hahah")
       return upstreamRepo;
     } catch (error) {
       console.error(error);
       throw error;
     }
-  },
-  async checkIfPrivateRepo(url) {
-    let cleanedURL = url.replace('.git', '');
-    cleanedURL = cleanedURL.replace(/\r?\n|\r/g, '');
-    return new Promise((resolve, reject) => {
-      exec(`curl ${cleanedURL} --head > visibility.txt`)
-        .then(() => {
-          fs.readFile('visibility.txt', 'utf8', (err, data) => {
-            if (err) {
-              return reject(err);
-            }
-            if (data.includes('HTTP/1.1 200 OK')) {
-              return resolve(true);
-            }
-            return resolve(false);
-          });
-        })
-        .catch((error) => reject(error));
-    });
   },
 
   async checkUpstreamConfiguration(localBranchName) {
