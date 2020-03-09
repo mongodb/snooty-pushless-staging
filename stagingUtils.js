@@ -87,7 +87,7 @@ module.exports = {
       upstream: upstreamConfig,
       localBranchName: localBranchArg,
       isFork: true,
-      private: false,
+      private: true,
       isXlarge: true,
       repoOwner: repoOwnerArg,
       url: urlArg,
@@ -197,13 +197,10 @@ module.exports = {
 
   async getUpstreamRepo() {
     try {
-      const forkConfig = (await exec('git remote -v')).stdout;
-      const configArray = forkConfig.split('\n');
-
-      let upstreamRepo = (configArray[2].replace('upstream', ''));
-      upstreamRepo = upstreamRepo.split(/(\S)+[:]((\S)+)/);
-      upstreamRepo = upstreamRepo[2];
-
+      const forkConfig = (await exec('git remote get-url upstream')).stdout;
+      let upstreamRepo = forkConfig.replace('git@github.com:', '');
+      // clean up new line char
+      upstreamRepo = upstreamRepo.replace(/\r?\n|\r/g, '');
       return upstreamRepo;
     } catch (error) {
       console.error(error);
