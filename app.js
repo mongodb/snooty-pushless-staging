@@ -70,7 +70,7 @@ async function main() {
     repoInfo = await StagingUtils.getRepoInfo();
     user = StagingUtils.getGitUser(repoInfo);
   } catch (error) {
-    console.log('error ', error);
+    console.log("error ", error);
     return;
   }
 
