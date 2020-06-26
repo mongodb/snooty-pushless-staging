@@ -229,9 +229,9 @@ module.exports = {
     }
   },
 
-  async getGitPatchFromLocal(upstreamBranchName) {
+  async getGitPatchFromLocal() {
     return new Promise((resolve, reject) => {
-      exec(`git diff ${upstreamBranchName} --ignore-submodules > myPatch.patch`)
+      exec('git diff HEAD --ignore-submodules > myPatch.patch')
         .then(() => {
           fs.readFile('myPatch.patch', 'utf8', (err, data) => {
             if (err) {
@@ -308,5 +308,5 @@ module.exports = {
       console.error(err);
       throw err;
     }
-  }
+  },
 };
