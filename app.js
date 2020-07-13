@@ -121,7 +121,7 @@ async function main() {
   }
 
   if (patchFlag === 'local') {
-    const patch = await StagingUtils.getGitPatchFromLocal();
+    const patch = await StagingUtils.getGitPatchFromLocal(upstreamConfig);
     const payLoad = StagingUtils.createPayload(
       repoName,
       branchName,
