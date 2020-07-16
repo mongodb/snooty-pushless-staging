@@ -83,18 +83,15 @@ async function main() {
     let firstCommit;
     let lastCommit;
 
+    // make sure they have made at least one commit
     try {
-      const commits = await StagingUtils.getGitCommits();
-      [firstCommit, lastCommit] = commits;
+      await StagingUtils.getGitCommits();
     } catch (error) {
       console.error(error);
       return;
     }
 
-    const patch = await StagingUtils.getGitPatchFromCommits(
-      firstCommit,
-      lastCommit,
-    );
+    const patch = await StagingUtils.getGitPatchFromCommits();
 
     const payLoad = StagingUtils.createPayload(
       repoName,

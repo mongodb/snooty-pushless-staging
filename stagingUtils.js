@@ -179,14 +179,7 @@ module.exports = {
             const err = 'You have tried to create a staging job from local commits but you have no committed work. Please make commits and then try again';
             reject(err);
           }
-          if (commitarray.length === 1) {
-            const firstCommit = commitarray[0];
-            const lastCommit = null;
-            resolve([firstCommit, lastCommit]);
-          }
-          const firstCommit = commitarray[0];
-          const lastCommit = commitarray[commitarray.length - 1];
-          resolve([firstCommit, lastCommit]);
+          resolve();
         })
         .catch((error) => {
           console.error('error generating patch: ', error);
@@ -247,11 +240,9 @@ module.exports = {
         });
     });
   },
-  async getGitPatchFromCommits(firstCommit, lastCommit) {
-    // need to delete patch file?
+  async getGitPatchFromCommits() {
     return new Promise((resolve, reject) => {
-      if (lastCommit === null) {
-        const patchCommand = 'git show HEAD > myPatch.patch';
+        const patchCommand = `git diff master...HEAD --ignore-submodules > myPatch.patch`;
         exec(patchCommand)
           .then(() => {
             fs.readFile('myPatch.patch', 'utf8', (err, data) => {
@@ -266,23 +257,6 @@ module.exports = {
             console.error('error generating patch: ', error);
             reject(error);
           });
-      } else {
-        const patchCommand = `git diff ${firstCommit}^...${lastCommit} > myPatch.patch`;
-        exec(patchCommand)
-          .then(() => {
-            fs.readFile('myPatch.patch', 'utf8', (err, data) => {
-              if (err) {
-                console.error('error reading patch file: ', err);
-                reject(err);
-              }
-              resolve(data);
-            });
-          })
-          .catch((error) => {
-            console.error('error generating patch: ', error);
-            reject(error);
-          });
-      }
     });
   },
 
@@ -308,5 +282,5 @@ module.exports = {
       console.error(err);
       throw err;
     }
-  }
+  },
 };
