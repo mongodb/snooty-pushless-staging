@@ -103,6 +103,7 @@ async function main() {
       buildSize,
       newHead,
       localBranch,
+      'commit',
     );
 
     try {
@@ -129,6 +130,7 @@ async function main() {
       buildSize,
       newHead,
       localBranch,
+      'local',
     );
 
     try {
