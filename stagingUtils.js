@@ -87,6 +87,7 @@ module.exports = {
       branchName: upstreamBranchName,
       upstream: upstreamConfig,
       localBranchName: localBranchArg,
+      isFork: true,
       private: true,
       isXlarge: true,
       repoOwner: repoOwnerArg,
