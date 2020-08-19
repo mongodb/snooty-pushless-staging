@@ -243,9 +243,10 @@ module.exports = {
 
   async checkForOnlyMakefileInDiff() {
     return new Promise((resolve, reject) => {
-      const patchCommand = 'git diff --name-only --ignore-submodules';
-      exec(patchCommand)
-        .then((changedFiles) => {
+      const command = 'git diff --name-only --ignore-submodules';
+      exec(command)
+        .then((result) => {
+          const changedFiles = result.stdout.trim();
           if (changedFiles === 'Makefile') {
             const errormsg = 'You have only made changes to the Makefile, which is not staged. Please make changes to content files and then stage';
             console.error(errormsg);
