@@ -241,16 +241,17 @@ module.exports = {
     });
   },
 
-  async checkForMakefileInDiff() {
+  async checkForOnlyMakefileInDiff() {
     try {
       const changedFiles = (await exec('git diff --name-only --ignore-submodules')).stdout.trim();
-      console.log("these are the changed files: ", changedFiles);
-      // patch would consist only of Makefile diff
+
+      //the patch would consist only of Makefile diff
       if (changedFiles === 'Makefile') {
-        console.log("true!!!")
         return true;
       }
-      return false;
+      const errormsg = 'You have only made changes to the Makefile, which is not staged. Please make changes to content files and then stage';
+      console.error(errormsg);
+      throw errormsg;
     } catch (error) {
       console.error(error);
       throw error;

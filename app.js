@@ -11,11 +11,8 @@ async function main() {
   let localBranch;
   const newHead = '';
 
-  const makefileOnly = await StagingUtils.checkForMakefileInDiff()
-  if(makefileOnly == true){
-    console.log('trueeeee!')
-    return
-  }
+  await StagingUtils.checkForOnlyMakefileInDiff();
+
   // try {
   //   StagingUtils.validateConfiguration();
   // } catch (error) {
