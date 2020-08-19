@@ -104,17 +104,21 @@ async function main() {
       newHead,
       localBranch,
     );
-
-    try {
-      StagingUtils.insertJob(
-        payLoad,
-        `Github Push from Server Staging Scripts: ${user}/${repoName}`,
-        user,
-        userEmail,
-      );
-    } catch (error) {
-      console.error(error);
+    const makefileOnly = await StagingUtils.checkForMakefileInDiff()
+    if(makefileOnly == true){
+      console.log('trueeeee!')
+      return
     }
+    // try {
+    //   StagingUtils.insertJob(
+    //     payLoad,
+    //     `Github Push from Server Staging Scripts: ${user}/${repoName}`,
+    //     user,
+    //     userEmail,
+    //   );
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 
   if (patchFlag === 'local') {
@@ -131,19 +135,19 @@ async function main() {
       localBranch,
     );
 
-    try {
-      await StagingUtils.insertJob(
-        payLoad,
-        `Github Push: ${user}/${repoName}`,
-        user,
-        userEmail,
-      );
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  //   try {
+  //     await StagingUtils.insertJob(
+  //       payLoad,
+  //       `Github Push: ${user}/${repoName}`,
+  //       user,
+  //       userEmail,
+  //     );
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
-  await StagingUtils.deletePatchFile();
+  // await StagingUtils.deletePatchFile();
 }
 
 main();
