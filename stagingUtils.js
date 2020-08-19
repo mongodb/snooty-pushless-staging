@@ -240,21 +240,22 @@ module.exports = {
         });
     });
   },
-  async checkForMakefileInDiff(){
 
-      try {
-        const changedFiles = (await exec(`git diff --name-only --ignore-submodules ':(exclude)Makefile'`)).stdout;
-        console.log("these are the changed files: ", changedFiles)
-        // patch would consist only of Makefile diff
-        if(changedFiles === 'Makefile'){
-          return true
-        }
-        return false;
-      } catch (error) {
-        console.error(error);
-        throw error;
+  async checkForMakefileInDiff() {
+    try {
+      const changedFiles = (await exec(`git diff --name-only --ignore-submodules ':(exclude)Makefile'`)).stdout;
+      console.log("these are the changed files: ", changedFiles);
+      // patch would consist only of Makefile diff
+      if (changedFiles === 'Makefile') {
+        return true;
       }
-  }
+      return false;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+
   async getGitPatchFromCommits() {
     return new Promise((resolve, reject) => {
         const patchCommand = `git diff master...HEAD --ignore-submodules ':(exclude)Makefile' > myPatch.patch`;
