@@ -242,19 +242,21 @@ module.exports = {
   },
 
   async checkForOnlyMakefileInDiff() {
-    try {
-      const changedFiles = (await exec('git diff --name-only --ignore-submodules')).stdout.trim();
-
-      if (changedFiles === 'Makefile') {
-        const errormsg = 'You have only made changes to the Makefile, which is not staged. Please make changes to content files and then stage';
-        console.error(errormsg);
-        throw errormsg;
-      }
-
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
+    return new Promise((resolve, reject) => {
+      const patchCommand = 'git diff --name-only --ignore-submodules';
+      exec(patchCommand)
+        .then((changedFiles) => {
+          if (changedFiles === 'Makefile') {
+            const errormsg = 'You have only made changes to the Makefile, which is not staged. Please make changes to content files and then stage';
+            console.error(errormsg);
+            reject(errormsg);
+          }
+        })
+        .catch((error) => {
+          console.error('error generating patch: ', error);
+          reject(error);
+        });
+    });
   },
 
   async getGitPatchFromCommits() {
