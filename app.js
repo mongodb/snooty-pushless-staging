@@ -11,7 +11,16 @@ async function main() {
   let localBranch;
   const newHead = '';
 
-  await StagingUtils.checkForOnlyMakefileInDiff();
+  try {
+    const makefileOnly = await StagingUtils.checkForOnlyMakefileInDiff();
+    if (makefileOnly) {
+      const errormsg = 'You have only made changes to the Makefile, which is not staged. Please make changes to content files and then stage';
+      console.error(errormsg);
+      return;
+    }
+  } catch (error) {
+    return;
+  }
 
   // try {
   //   StagingUtils.validateConfiguration();
