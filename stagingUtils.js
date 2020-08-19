@@ -245,13 +245,12 @@ module.exports = {
     try {
       const changedFiles = (await exec('git diff --name-only --ignore-submodules')).stdout.trim();
 
-      //the patch would consist only of Makefile diff
       if (changedFiles === 'Makefile') {
-        return true;
+        const errormsg = 'You have only made changes to the Makefile, which is not staged. Please make changes to content files and then stage';
+        console.error(errormsg);
+        throw errormsg;
       }
-      const errormsg = 'You have only made changes to the Makefile, which is not staged. Please make changes to content files and then stage';
-      console.error(errormsg);
-      throw errormsg;
+
     } catch (error) {
       console.error(error);
       throw error;
