@@ -241,9 +241,15 @@ module.exports = {
     });
   },
 
-  async checkForOnlyMakefileInDiff() {
+  async checkForOnlyMakefileInDiff(patchType) {
     try {
-      const changedFiles = (await exec('git diff --name-only --ignore-submodules')).stdout.trim();
+      let command;
+      if (patchType === 'commit') {
+        command = 'git diff master...HEAD --name-only --ignore-submodules';
+      } else {
+        command = 'git diff --name-only --ignore-submodules';
+      }
+      const changedFiles = (await exec(command)).stdout.trim();
       if (changedFiles === 'Makefile') {
         return true;
       }
