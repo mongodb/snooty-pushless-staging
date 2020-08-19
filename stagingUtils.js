@@ -244,7 +244,6 @@ module.exports = {
   async checkForOnlyMakefileInDiff() {
     try {
       const changedFiles = (await exec('git diff --name-only --ignore-submodules')).stdout.trim();
-
       if (changedFiles === 'Makefile') {
         return true;
       }
