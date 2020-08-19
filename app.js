@@ -145,7 +145,7 @@ async function main() {
   //   } catch (error) {
   //     console.error(error);
   //   }
-  // }
+  }
 
   // await StagingUtils.deletePatchFile();
 }
