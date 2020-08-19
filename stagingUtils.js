@@ -260,21 +260,21 @@ module.exports = {
 
   async getGitPatchFromCommits() {
     return new Promise((resolve, reject) => {
-        const patchCommand = `git diff master...HEAD --ignore-submodules ':(exclude)Makefile' > myPatch.patch`;
-        exec(patchCommand)
-          .then(() => {
-            fs.readFile('myPatch.patch', 'utf8', (err, data) => {
-              if (err) {
-                console.error('error reading patch file: ', err);
-                reject(err);
-              }
-              resolve(data);
-            });
-          })
-          .catch((error) => {
-            console.error('error generating patch: ', error);
-            reject(error);
+      const patchCommand = `git diff master...HEAD --ignore-submodules ':(exclude)Makefile' > myPatch.patch`;
+      exec(patchCommand)
+        .then(() => {
+          fs.readFile('myPatch.patch', 'utf8', (err, data) => {
+            if (err) {
+              console.error('error reading patch file: ', err);
+              reject(err);
+            }
+            resolve(data);
           });
+        })
+        .catch((error) => {
+          console.error('error generating patch: ', error);
+          reject(error);
+        });
     });
   },
 
