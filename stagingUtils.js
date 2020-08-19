@@ -243,7 +243,7 @@ module.exports = {
 
   async checkForMakefileInDiff() {
     try {
-      const changedFiles = (await exec(`git diff --name-only --ignore-submodules ':(exclude)Makefile'`)).stdout;
+      const changedFiles = (await exec('git diff --name-only --ignore-submodules')).stdout;
       console.log("these are the changed files: ", changedFiles);
       // patch would consist only of Makefile diff
       if (changedFiles === 'Makefile') {
