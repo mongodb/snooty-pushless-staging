@@ -14,7 +14,7 @@ async function main() {
   try {
     const makefileOnly = await StagingUtils.checkForOnlyMakefileInDiff(patchFlag);
     if (makefileOnly) {
-      const errormsg = 'You have only made changes to the Makefile, which is not staged. Please make changes to content files and then stage';
+      const errormsg = 'You have only made changes to the Makefile, which can\'t be staged. Please make changes to content files and then stage';
       console.error(errormsg);
       return;
     }
