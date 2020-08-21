@@ -224,7 +224,7 @@ module.exports = {
 
   async getGitPatchFromLocal(upstreamBranchName) {
     return new Promise((resolve, reject) => {
-      exec(`git diff ${upstreamBranchName} --ignore-submodules > myPatch.patch`)
+      exec(`git diff ${upstreamBranchName} --ignore-submodules ':(exclude)Makefile'> myPatch.patch`)
         .then(() => {
           fs.readFile('myPatch.patch', 'utf8', (err, data) => {
             if (err) {
@@ -240,23 +240,43 @@ module.exports = {
         });
     });
   },
+
+  async checkForOnlyMakefileInDiff(patchType) {
+    try {
+      let command;
+      if (patchType === 'commit') {
+        command = 'git diff master...HEAD --name-only --ignore-submodules';
+      } else {
+        command = 'git diff --name-only --ignore-submodules';
+      }
+      const changedFiles = (await exec(command)).stdout.trim();
+      if (changedFiles === 'Makefile') {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  },
+
   async getGitPatchFromCommits() {
     return new Promise((resolve, reject) => {
-        const patchCommand = `git diff master...HEAD --ignore-submodules > myPatch.patch`;
-        exec(patchCommand)
-          .then(() => {
-            fs.readFile('myPatch.patch', 'utf8', (err, data) => {
-              if (err) {
-                console.error('error reading patch file: ', err);
-                reject(err);
-              }
-              resolve(data);
-            });
-          })
-          .catch((error) => {
-            console.error('error generating patch: ', error);
-            reject(error);
+      const patchCommand = `git diff master...HEAD --ignore-submodules ':(exclude)Makefile' > myPatch.patch`;
+      exec(patchCommand)
+        .then(() => {
+          fs.readFile('myPatch.patch', 'utf8', (err, data) => {
+            if (err) {
+              console.error('error reading patch file: ', err);
+              reject(err);
+            }
+            resolve(data);
           });
+        })
+        .catch((error) => {
+          console.error('error generating patch: ', error);
+          reject(error);
+        });
     });
   },
 

@@ -12,6 +12,17 @@ async function main() {
   const newHead = '';
 
   try {
+    const makefileOnly = await StagingUtils.checkForOnlyMakefileInDiff(patchFlag);
+    if (makefileOnly) {
+      const errormsg = 'You have only made changes to the Makefile, which can\'t be staged. Please make changes to content files and then stage';
+      console.error(errormsg);
+      return;
+    }
+  } catch (error) {
+    return;
+  }
+
+  try {
     StagingUtils.validateConfiguration();
   } catch (error) {
     return;
