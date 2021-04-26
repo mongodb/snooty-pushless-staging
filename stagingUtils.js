@@ -23,7 +23,7 @@ module.exports = {
       failures: [],
       result: null,
       payload: payloadObj,
-      logs: {},
+      logs: [],
     };
 
     const filterDoc = {
