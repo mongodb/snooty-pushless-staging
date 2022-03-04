@@ -153,7 +153,7 @@ async function main() {
         user,
         userEmail,
       );
-      await axios.post('https://d1g65nmnt0.execute-api.us-east-2.amazonaws.com/stg/webhook/local/trigger/build', {jobId:jobId});
+      await axios.post('https://d1g65nmnt0.execute-api.us-east-2.amazonaws.com/stg/webhook/local/trigger/build', {jobId:jobId._id});
     } catch (error) {
       console.error(error);
     }
