@@ -1,4 +1,6 @@
 const StagingUtils = require('./stagingUtils');
+const axios = require('axios');
+
 
 async function main() {
   const patchFlag = process.argv[2];
@@ -145,12 +147,13 @@ async function main() {
     );
 
     try {
-      await StagingUtils.insertJob(
+      const jobId = await StagingUtils.insertJob(
         payLoad,
         `Github Push: ${user}/${repoName}`,
         user,
         userEmail,
       );
+      await axios.post('https://r1aju970cg.execute-api.us-east-2.amazonaws.com/dotcomprd/webhook/local/trigger/build', {jobId:jobId});
     } catch (error) {
       console.error(error);
     }

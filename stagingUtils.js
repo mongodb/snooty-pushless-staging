@@ -23,7 +23,7 @@ module.exports = {
       failures: [],
       result: null,
       payload: payloadObj,
-      logs: {},
+      logs: [],
     };
 
     const filterDoc = {
@@ -53,7 +53,7 @@ module.exports = {
           `You successfully enqued a staging job to docs autobuilder. This is the record id: ${result.upsertedId._id}`
         );
         client.close();
-        return true;
+        return result.upsertedId;
       }
       client.close();
       console.log('This job already exists ');
