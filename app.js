@@ -1,4 +1,6 @@
 const StagingUtils = require('./stagingUtils');
+const axios = require('axios');
+
 
 async function main() {
   const patchFlag = process.argv[2];
@@ -145,7 +147,7 @@ async function main() {
     );
 
     try {
-      await StagingUtils.insertJob(
+      const jobId = await StagingUtils.insertJob(
         payLoad,
         `Github Push: ${user}/${repoName}`,
         user,
