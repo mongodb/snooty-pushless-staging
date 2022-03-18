@@ -94,7 +94,9 @@ module.exports = {
       url: urlArg,
       newHead: lastCommit,
       patch: patchArg,
-      patchType: patchTypeArg
+      patchType: patchTypeArg,
+      project:repoNameArg,
+      urlSlug:""
     };
 
     return payload;
