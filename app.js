@@ -153,7 +153,7 @@ async function main() {
         user,
         userEmail,
       );
-      const pushlessStagingEndpointUrl = 'https://qr4zntq72h.execute-api.us-east-2.amazonaws.com/prd/webhook/local/trigger/build';
+      const pushlessStagingEndpointUrl = 'https://5ebq1gien6.execute-api.us-east-2.amazonaws.com/prod/webhook/local/trigger/build';
       await axios.post(pushlessStagingEndpointUrl, {jobId:jobId._id});
     } catch (error) {
       console.error(error);
